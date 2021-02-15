@@ -1,18 +1,18 @@
 <ASSEMBLER_INFO>
  <VERSION>2.2.8</VERSION>
  <DEVICE>"ATmega64"</DEVICE>
- <WORKING_DIR>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\Debug</WORKING_DIR>
+ <WORKING_DIR>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\Debug</WORKING_DIR>
  <INCLUDE_PATH>
   <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
   <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\main.asm</SOURCE_FILE>
+ <SOURCE_FILE>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</SOURCE_FILE>
  <INCLUDED_FILES>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m64def.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
-  <FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\Debug\prog2gyak-1.obj</FILE>
+  <FILE>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\Debug\prog2gyak-1.obj</FILE>
  </OBJECT_FILES>
  <HEX_FILES>
   <FILE>prog2gyak-1.hex</FILE>
@@ -22,9 +22,9 @@
   <FILE>prog2gyak-1.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <start><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>51</LINE></start>
-  <LED_out><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>35</LINE></LED_out>
-  <delay_1s><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>42</LINE></delay_1s>
-  <loop><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>60</LINE></loop>
+  <start><FILE>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>51</LINE></start>
+  <LED_out><FILE>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>35</LINE></LED_out>
+  <delay_1s><FILE>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>42</LINE></delay_1s>
+  <loop><FILE>D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>60</LINE></loop>
  </LABELS>
 </ASSEMBLER_INFO>

@@ -60,8 +60,8 @@ start:
 loop:
 	call	LED_out
 	//call	delay_1s
-	eor		LED,	tmp2
-	//ror		LED
+	//eor		led,	tmp2
+	ror		LED
     rjmp	loop
 
 	/*
