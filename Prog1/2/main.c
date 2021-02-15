@@ -61,5 +61,5 @@ int getLampsSwitched(unsigned char *lamps)
     printf("%d ", lamps[i]);
     i++;
   }
-  return;
+  return 0;
 }
