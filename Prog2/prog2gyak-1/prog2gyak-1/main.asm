@@ -4,7 +4,7 @@
 ; Created: 2021. 02. 08. 17:13:43
 ; Author : fodor
 ;
-.INCLUDE "m64def.inc"
+.INCLUDE "m128def.inc"
 .DSEG
 
 .CSEG
@@ -14,6 +14,7 @@
 .DEF	delay2	=	r19
 .DEF	delay3	=	r20
 .DEF	tmp2	=	r21
+.DEF	hazi	=	r22
 
 .ORG	0x00
 		rjmp	start
@@ -32,6 +33,13 @@
 		out		SPL,	tmp //SPL = StackPointerLow, stb
 .endmacro
 
+.macro delay_init
+	ldi		delay1,	0xFF
+	ldi		delay2,	0xFF
+	;ldi		delay3,	0x2A
+	ldi		delay3, 0x1A
+.endmacro
+
 LED_out:
 	out		PORTD,	led
 	swap	LED //Mivel a LED regiszterünk alsó négy bitjét a PORTB regiszter felsõ négy bitjére kell kiírnunk, az alsó és felsõ négy bitet megcseréljük.
@@ -48,20 +56,40 @@ delay_1s:
 	brne	delay_1s
 ret
 
+.macro orai
+	;eor		led,	tmp2
+	rol		LED
+.endmacro 
+
+hazi_1:
+	
+ret
+
+.macro hazi_2
+
+.endmacro
+
+.macro hazi_3
+
+.endmacro
+
 start:
 	stack_init
     port_init
+	delay_init
 	ldi		led,	0x01
 	ldi		tmp2,	0x01
-	ldi		delay1,	0xFF
-	ldi		delay2,	0xFF
-	ldi		delay3,	0x20 //4 000 000 "no-op"
 
 loop:
+	delay_init
+	call	delay_1s
+	
+	;orai
+	call hazi_1
+	;hazi_2
+	;hazi_3
+	
 	call	LED_out
-	//call	delay_1s
-	//eor		led,	tmp2
-	ror		LED
     rjmp	loop
 
 	/*

@@ -1,24 +1,24 @@
 
-AVRASM ver. 2.2.8  D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm Mon Feb 15 20:18:54 2021
+AVRASM ver. 2.2.8  D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm Sun Feb 21 20:12:23 2021
 
-[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m64def.inc'
-D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m64def.inc'
-[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m64def.inc'
-D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m64def.inc'
+[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m128def.inc'
+D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m128def.inc'
+[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m128def.inc'
+D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m128def.inc'
                                  
                                  ;
                                  
-                                 ;***** Created: 2011-02-09 12:03 ******* Source: ATmega64.xml ************
+                                 ;***** Created: 2011-02-09 12:03 ******* Source: ATmega128.xml ***********
                                  ;*************************************************************************
                                  ;* A P P L I C A T I O N   N O T E   F O R   T H E   A V R   F A M I L Y
                                  ;* 
                                  ;* Number            : AVR000
-                                 ;* File Name         : "m64def.inc"
-                                 ;* Title             : Register/Bit Definitions for the ATmega64
+                                 ;* File Name         : "m128def.inc"
+                                 ;* Title             : Register/Bit Definitions for the ATmega128
                                  ;* Date              : 2011-02-09
                                  ;* Version           : 2.35
                                  ;* Support E-mail    : avr@atmel.com
-                                 ;* Target MCU        : ATmega64
+                                 ;* Target MCU        : ATmega128
                                  ;* 
                                  ;* DESCRIPTION
                                  ;* When including this file in the assembly program file, all I/O register 
@@ -46,17 +46,17 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  ;* ...                         ;otherwise do something else
                                  ;*************************************************************************
                                  
-                                 #ifndef _M64DEF_INC_
-                                 #define _M64DEF_INC_
+                                 #ifndef _M128DEF_INC_
+                                 #define _M128DEF_INC_
                                  
                                  
                                  #pragma partinc 0
                                  
                                  ; ***** SPECIFY DEVICE ***************************************************
-                                 .device ATmega64
-                                 #pragma AVRPART ADMIN PART_NAME ATmega64
+                                 .device ATmega128
+                                 #pragma AVRPART ADMIN PART_NAME ATmega128
                                  .equ	SIGNATURE_000	= 0x1e
-                                 .equ	SIGNATURE_001	= 0x96
+                                 .equ	SIGNATURE_001	= 0x97
                                  .equ	SIGNATURE_002	= 0x02
                                  
                                  #pragma AVRPART CORE CORE_VERSION V2E
@@ -74,7 +74,6 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  .equ	UBRR1L	= 0x99	; MEMORY MAPPED
                                  .equ	UCSR0C	= 0x95	; MEMORY MAPPED
                                  .equ	UBRR0H	= 0x90	; MEMORY MAPPED
-                                 .equ	ADCSRB	= 0x8e	; MEMORY MAPPED
                                  .equ	TCCR3C	= 0x8c	; MEMORY MAPPED
                                  .equ	TCCR3A	= 0x8b	; MEMORY MAPPED
                                  .equ	TCCR3B	= 0x8a	; MEMORY MAPPED
@@ -112,6 +111,7 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  .equ	SPL	= 0x3d
                                  .equ	SPH	= 0x3e
                                  .equ	XDIV	= 0x3c
+                                 .equ	RAMPZ	= 0x3b
                                  .equ	EICRB	= 0x3a
                                  .equ	EIMSK	= 0x39
                                  .equ	EIFR	= 0x38
@@ -188,55 +188,6 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  .equ	ACO	= 5	; Analog Compare Output
                                  .equ	ACBG	= 6	; Analog Comparator Bandgap Select
                                  .equ	ACD	= 7	; Analog Comparator Disable
-                                 
-                                 
-                                 ; ***** AD_CONVERTER *****************
-                                 ; ADMUX - The ADC multiplexer Selection Register
-                                 .equ	MUX0	= 0	; Analog Channel and Gain Selection Bits
-                                 .equ	MUX1	= 1	; Analog Channel and Gain Selection Bits
-                                 .equ	MUX2	= 2	; Analog Channel and Gain Selection Bits
-                                 .equ	MUX3	= 3	; Analog Channel and Gain Selection Bits
-                                 .equ	MUX4	= 4	; Analog Channel and Gain Selection Bits
-                                 .equ	ADLAR	= 5	; Left Adjust Result
-                                 .equ	REFS0	= 6	; Reference Selection Bit 0
-                                 .equ	REFS1	= 7	; Reference Selection Bit 1
-                                 
-                                 ; ADCSRA - The ADC Control and Status register A
-                                 .equ	ADCSR	= ADCSRA	; For compatibility
-                                 .equ	ADPS0	= 0	; ADC  Prescaler Select Bits
-                                 .equ	ADPS1	= 1	; ADC  Prescaler Select Bits
-                                 .equ	ADPS2	= 2	; ADC  Prescaler Select Bits
-                                 .equ	ADIE	= 3	; ADC Interrupt Enable
-                                 .equ	ADIF	= 4	; ADC Interrupt Flag
-                                 .equ	ADATE	= 5	; ADC  Auto Trigger Enable
-                                 .equ	ADFR	= ADATE	; For compatibility
-                                 .equ	ADSC	= 6	; ADC Start Conversion
-                                 .equ	ADEN	= 7	; ADC Enable
-                                 
-                                 ; ADCH - ADC Data Register High Byte
-                                 .equ	ADCH0	= 0	; ADC Data Register High Byte Bit 0
-                                 .equ	ADCH1	= 1	; ADC Data Register High Byte Bit 1
-                                 .equ	ADCH2	= 2	; ADC Data Register High Byte Bit 2
-                                 .equ	ADCH3	= 3	; ADC Data Register High Byte Bit 3
-                                 .equ	ADCH4	= 4	; ADC Data Register High Byte Bit 4
-                                 .equ	ADCH5	= 5	; ADC Data Register High Byte Bit 5
-                                 .equ	ADCH6	= 6	; ADC Data Register High Byte Bit 6
-                                 .equ	ADCH7	= 7	; ADC Data Register High Byte Bit 7
-                                 
-                                 ; ADCL - ADC Data Register Low Byte
-                                 .equ	ADCL0	= 0	; ADC Data Register Low Byte Bit 0
-                                 .equ	ADCL1	= 1	; ADC Data Register Low Byte Bit 1
-                                 .equ	ADCL2	= 2	; ADC Data Register Low Byte Bit 2
-                                 .equ	ADCL3	= 3	; ADC Data Register Low Byte Bit 3
-                                 .equ	ADCL4	= 4	; ADC Data Register Low Byte Bit 4
-                                 .equ	ADCL5	= 5	; ADC Data Register Low Byte Bit 5
-                                 .equ	ADCL6	= 6	; ADC Data Register Low Byte Bit 6
-                                 .equ	ADCL7	= 7	; ADC Data Register Low Byte Bit 7
-                                 
-                                 ; ADCSRB - The ADC Control and Status register B
-                                 .equ	ADTS0	= 0	; ADC Auto Trigger Source bit 0
-                                 .equ	ADTS1	= 1	; ADC Auto Trigger Source bit 1
-                                 .equ	ADTS2	= 2	; ADC Auto Trigger Source bit 2
                                  
                                  
                                  ; ***** SPI **************************
@@ -514,6 +465,9 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  .equ	WDRF	= 3	; Watchdog Reset Flag
                                  .equ	JTRF	= 4	; JTAG Reset Flag
                                  .equ	JTD	= 7	; JTAG Interface Disable
+                                 
+                                 ; RAMPZ - RAM Page Z Select Register
+                                 .equ	RAMPZ0	= 0	; RAM Page Z Select Register Bit 0
                                  
                                  
                                  ; ***** BOOT_LOAD ********************
@@ -1107,6 +1061,49 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  .equ	WDTOE	= WDCE	; For compatibility
                                  
                                  
+                                 ; ***** AD_CONVERTER *****************
+                                 ; ADMUX - The ADC multiplexer Selection Register
+                                 .equ	MUX0	= 0	; Analog Channel and Gain Selection Bits
+                                 .equ	MUX1	= 1	; Analog Channel and Gain Selection Bits
+                                 .equ	MUX2	= 2	; Analog Channel and Gain Selection Bits
+                                 .equ	MUX3	= 3	; Analog Channel and Gain Selection Bits
+                                 .equ	MUX4	= 4	; Analog Channel and Gain Selection Bits
+                                 .equ	ADLAR	= 5	; Left Adjust Result
+                                 .equ	REFS0	= 6	; Reference Selection Bit 0
+                                 .equ	REFS1	= 7	; Reference Selection Bit 1
+                                 
+                                 ; ADCSRA - The ADC Control and Status register
+                                 .equ	ADCSR	= ADCSRA	; For compatibility
+                                 .equ	ADPS0	= 0	; ADC  Prescaler Select Bits
+                                 .equ	ADPS1	= 1	; ADC  Prescaler Select Bits
+                                 .equ	ADPS2	= 2	; ADC  Prescaler Select Bits
+                                 .equ	ADIE	= 3	; ADC Interrupt Enable
+                                 .equ	ADIF	= 4	; ADC Interrupt Flag
+                                 .equ	ADFR	= 5	; ADC  Free Running Select
+                                 .equ	ADSC	= 6	; ADC Start Conversion
+                                 .equ	ADEN	= 7	; ADC Enable
+                                 
+                                 ; ADCH - ADC Data Register High Byte
+                                 .equ	ADCH0	= 0	; ADC Data Register High Byte Bit 0
+                                 .equ	ADCH1	= 1	; ADC Data Register High Byte Bit 1
+                                 .equ	ADCH2	= 2	; ADC Data Register High Byte Bit 2
+                                 .equ	ADCH3	= 3	; ADC Data Register High Byte Bit 3
+                                 .equ	ADCH4	= 4	; ADC Data Register High Byte Bit 4
+                                 .equ	ADCH5	= 5	; ADC Data Register High Byte Bit 5
+                                 .equ	ADCH6	= 6	; ADC Data Register High Byte Bit 6
+                                 .equ	ADCH7	= 7	; ADC Data Register High Byte Bit 7
+                                 
+                                 ; ADCL - ADC Data Register Low Byte
+                                 .equ	ADCL0	= 0	; ADC Data Register Low Byte Bit 0
+                                 .equ	ADCL1	= 1	; ADC Data Register Low Byte Bit 1
+                                 .equ	ADCL2	= 2	; ADC Data Register Low Byte Bit 2
+                                 .equ	ADCL3	= 3	; ADC Data Register Low Byte Bit 3
+                                 .equ	ADCL4	= 4	; ADC Data Register Low Byte Bit 4
+                                 .equ	ADCL5	= 5	; ADC Data Register Low Byte Bit 5
+                                 .equ	ADCL6	= 6	; ADC Data Register Low Byte Bit 6
+                                 .equ	ADCL7	= 7	; ADC Data Register Low Byte Bit 7
+                                 
+                                 
                                  
                                  ; ***** LOCKSBITS ********************************************************
                                  .equ	LB1	= 0	; Lock bit
@@ -1140,7 +1137,7 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  
                                  ; EXTENDED fuse bits
                                  .equ	WDTON	= 0	; Watchdog timer always on
-                                 .equ	CompMode	= 1	; Compabillity mode
+                                 .equ	M103C	= 1	; ATmega103 compatibility mode
                                  
                                  
                                  
@@ -1155,32 +1152,32 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  
                                  
                                  ; ***** DATA MEMORY DECLARATIONS *****************************************
-                                 .equ	FLASHEND	= 0x7fff	; Note: Word address
+                                 .equ	FLASHEND	= 0xffff	; Note: Word address
                                  .equ	IOEND	= 0x00ff
                                  .equ	SRAM_START	= 0x0100
                                  .equ	SRAM_SIZE	= 4096
                                  .equ	RAMEND	= 0x10ff
                                  .equ	XRAMEND	= 0xffff
-                                 .equ	E2END	= 0x07ff
-                                 .equ	EEPROMEND	= 0x07ff
-                                 .equ	EEADRBITS	= 11
-                                 #pragma AVRPART MEMORY PROG_FLASH 65536
-                                 #pragma AVRPART MEMORY EEPROM 2048
+                                 .equ	E2END	= 0x0fff
+                                 .equ	EEPROMEND	= 0x0fff
+                                 .equ	EEADRBITS	= 12
+                                 #pragma AVRPART MEMORY PROG_FLASH 131072
+                                 #pragma AVRPART MEMORY EEPROM 4096
                                  #pragma AVRPART MEMORY INT_SRAM SIZE 4096
                                  #pragma AVRPART MEMORY INT_SRAM START_ADDR 0x100
                                  
                                  
                                  
                                  ; ***** BOOTLOADER DECLARATIONS ******************************************
-                                 .equ	NRWW_START_ADDR	= 0x7000
-                                 .equ	NRWW_STOP_ADDR	= 0x7fff
+                                 .equ	NRWW_START_ADDR	= 0xf000
+                                 .equ	NRWW_STOP_ADDR	= 0xffff
                                  .equ	RWW_START_ADDR	= 0x0
-                                 .equ	RWW_STOP_ADDR	= 0x6fff
+                                 .equ	RWW_STOP_ADDR	= 0xefff
                                  .equ	PAGESIZE	= 128
-                                 .equ	FIRSTBOOTSTART	= 0x7e00
-                                 .equ	SECONDBOOTSTART	= 0x7c00
-                                 .equ	THIRDBOOTSTART	= 0x7800
-                                 .equ	FOURTHBOOTSTART	= 0x7000
+                                 .equ	FIRSTBOOTSTART	= 0xfe00
+                                 .equ	SECONDBOOTSTART	= 0xfc00
+                                 .equ	THIRDBOOTSTART	= 0xf800
+                                 .equ	FOURTHBOOTSTART	= 0xf000
                                  .equ	SMALLBOOTSTART	= FIRSTBOOTSTART
                                  .equ	LARGEBOOTSTART	= FOURTHBOOTSTART
                                  
@@ -1224,7 +1221,7 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  
                                  .equ	INT_VECTORS_SIZE	= 70	; size in words
                                  
-                                 #endif  /* _M64DEF_INC_ */
+                                 #endif  /* _M128DEF_INC_ */
                                  
                                  ; ***** END OF FILE ******************************************************
                                  
@@ -1233,19 +1230,19 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  ; Created: 2021. 02. 08. 17:13:43
                                  ; Author : fodor
                                  ;
-                                 .INCLUDE "m64def.inc"
+                                 .INCLUDE "m128def.inc"
                                  
-                                 ;***** Created: 2011-02-09 12:03 ******* Source: ATmega64.xml ************
+                                 ;***** Created: 2011-02-09 12:03 ******* Source: ATmega128.xml ***********
                                  ;*************************************************************************
                                  ;* A P P L I C A T I O N   N O T E   F O R   T H E   A V R   F A M I L Y
                                  ;* 
                                  ;* Number            : AVR000
-                                 ;* File Name         : "m64def.inc"
-                                 ;* Title             : Register/Bit Definitions for the ATmega64
+                                 ;* File Name         : "m128def.inc"
+                                 ;* Title             : Register/Bit Definitions for the ATmega128
                                  ;* Date              : 2011-02-09
                                  ;* Version           : 2.35
                                  ;* Support E-mail    : avr@atmel.com
-                                 ;* Target MCU        : ATmega64
+                                 ;* Target MCU        : ATmega128
                                  ;* 
                                  ;* DESCRIPTION
                                  ;* When including this file in the assembly program file, all I/O register 
@@ -1273,8 +1270,8 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  ;* ...                         ;otherwise do something else
                                  ;*************************************************************************
                                  
-                                 #ifndef _M64DEF_INC_
-                                 #endif  /* _M64DEF_INC_ */
+                                 #ifndef _M128DEF_INC_
+                                 #endif  /* _M128DEF_INC_ */
                                  
                                  ; ***** END OF FILE ******************************************************
                                  .DSEG
@@ -1304,6 +1301,13 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
                                  		out		SPL,	tmp //SPL = StackPointerLow, stb
                                  .endmacro
                                  
+                                 .macro delay_init
+                                 	ldi		delay1,	0xFF
+                                 	ldi		delay2,	0xFF
+                                 	;ldi		delay3,	0x2A
+                                 	ldi		delay3, 0x1A
+                                 .endmacro
+                                 
                                  LED_out:
 000100 bb12                      	out		PORTD,	led
 000101 9512                      	swap	LED //Mivel a LED regiszterünk alsó négy bitjét a PORTB regiszter felsõ négy bitjére kell kiírnunk, az alsó és felsõ négy bitet megcseréljük.
@@ -1328,18 +1332,21 @@ D:\_Projektek\_OE-KVK\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm(7)
 000110 ef00
 000111 bb07
 000112 bb01                          port_init
-000113 e011                      	ldi		led,	0x01
-000114 e051                      	ldi		tmp2,	0x01
-000115 ef2f                      	ldi		delay1,	0xFF
-000116 ef3f                      	ldi		delay2,	0xFF
-000117 e240                      	ldi		delay3,	0x20 //4 000 000 "no-op"
+000113 ef2f
+000114 ef3f
+000115 e14a                      	delay_init
+000116 e011                      	ldi		led,	0x01
+000117 e051                      	ldi		tmp2,	0x01
                                  
                                  loop:
 000118 940e 0100                 	call	LED_out
-                                 	//call	delay_1s
-                                 	//eor		led,	tmp2
-00011a 9517                      	ror		LED
-00011b cffc                          rjmp	loop
+00011a ef2f
+00011b ef3f
+00011c e14a                      	delay_init
+00011d 940e 0105                 	call	delay_1s
+                                 	;eor		led,	tmp2
+00011f 1f11                      	rol		LED
+000120 cff7                          rjmp	loop
                                  
                                  	/*
                                  	Házi:
@@ -1379,41 +1386,42 @@ counted separately from r26..r31 here.
 
 .dseg memory usage only counts static data declared with .byte
 
-"ATmega64" register use summary:
+"ATmega128" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:   7 r17:   6 r18:   2 r19:   2 r20:   2 
+r13:   0 r14:   0 r15:   0 r16:   7 r17:   6 r18:   3 r19:   3 r20:   3 
 r21:   1 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 6 out of 35 (17.1%)
 
-"ATmega64" instruction use summary:
+"ATmega128" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   1 cbi   :   0 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   2 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   0 cpse  :   0 dec   :   3 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   0 
-ld    :   0 ldd   :   0 ldi   :   8 lds   :   0 lpm   :   0 lsl   :   0 
-lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   6 pop   :   0 
-push  :   0 rcall :   0 ret   :   2 reti  :   0 rjmp  :   2 rol   :   0 
-ror   :   1 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
-sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
-sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
-sub   :   0 subi  :   0 swap  :   2 tst   :   0 wdr   :   0 
-Instructions used: 9 out of 113 (8.0%)
+cpi   :   0 cpse  :   0 dec   :   3 elpm  :   0 eor   :   0 fmul  :   0 
+fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 
+jmp   :   0 ld    :   0 ldd   :   0 ldi   :  11 lds   :   0 lpm   :   0 
+lsl   :   0 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 
+mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   6 
+pop   :   0 push  :   0 rcall :   0 ret   :   2 reti  :   0 rjmp  :   2 
+rol   :   1 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 
+sbis  :   0 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 
+seh   :   0 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 
+sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 
+sts   :   0 sub   :   0 subi  :   0 swap  :   2 tst   :   0 wdr   :   0 
 
-"ATmega64" memory use summary [bytes]:
+Instructions used: 9 out of 114 (7.9%)
+
+"ATmega128" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000238     58      0     58   65536   0.1%
+[.cseg] 0x000000 0x000242     68      0     68  131072   0.1%
 [.dseg] 0x000100 0x000100      0      0      0    4096   0.0%
-[.eseg] 0x000000 0x000000      0      0      0    2048   0.0%
+[.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 
 Assembly complete, 0 errors, 0 warnings
