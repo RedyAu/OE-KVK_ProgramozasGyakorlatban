@@ -14,7 +14,7 @@
 .DEF	delay2	=	r19
 .DEF	delay3	=	r20
 .DEF	tmp2	=	r21
-.DEF	hazi	=	r22
+.DEF	irany	=	r22
 
 .ORG	0x00
 		rjmp	start
@@ -36,8 +36,8 @@
 .macro delay_init
 	ldi		delay1,	0xFF
 	ldi		delay2,	0xFF
-	;ldi		delay3,	0x2A
-	ldi		delay3, 0x1A
+	ldi		delay3,	0x2A
+	;ldi		delay3, 0x1A
 .endmacro
 
 LED_out:
@@ -56,22 +56,36 @@ delay_1s:
 	brne	delay_1s
 ret
 
+//####################################################
+//FELADATOK
+
 .macro orai
 	;eor		led,	tmp2
 	rol		LED
 .endmacro 
 
-hazi_1:
-	
-ret
+.macro hazi_1 //NOT DONE!
+	cpi irany,1 //összehasonlítjuk, hogy 1-e, eredmény a státusz bitre íródik
+	brne balra
+	sbrc LED,0
+	eor irany, tmp2
+	lsr LED
+	rjmp loop
+balra:
+	sbrc LED, 7 //LED 7. bitje
+	eor irany, tmp2 //rámaszkolunk 1-et
+	lsl LED
+.endmacro
 
 .macro hazi_2
-
+	
 .endmacro
 
 .macro hazi_3
 
 .endmacro
+
+//####################################################
 
 start:
 	stack_init
@@ -79,14 +93,15 @@ start:
 	delay_init
 	ldi		led,	0x01
 	ldi		tmp2,	0x01
+	ldi		irany,	1
 
 loop:
 	delay_init
 	call	delay_1s
 	
 	;orai
-	call hazi_1
-	;hazi_2
+	;hazi_1
+	hazi_2
 	;hazi_3
 	
 	call	LED_out

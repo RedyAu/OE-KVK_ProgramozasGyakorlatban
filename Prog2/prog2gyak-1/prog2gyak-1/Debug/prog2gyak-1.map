@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm Sun Feb 21 20:12:23 2021
+AVRASM ver. 2.2.8  D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm Mon Feb 22 17:16:02 2021
 
 
 EQU  SIGNATURE_000 0000001e
@@ -873,7 +873,8 @@ DEF  delay1       r18
 DEF  delay2       r19
 DEF  delay3       r20
 DEF  tmp2         r21
+DEF  irany        r22
 CSEG start        0000010c
 CSEG LED_out      00000100
 CSEG delay_1s     00000105
-CSEG loop         00000118
+CSEG loop         00000119

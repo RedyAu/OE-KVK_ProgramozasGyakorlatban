@@ -2,20 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define BYTE_TO_BINARY_PATTERN "%c %c %c %c %c %c %c %c"
-#define BYTE_TO_BINARY(byte)     \
-  (byte & 0x80 ? '1' : '0'),     \
-      (byte & 0x40 ? '1' : '0'), \
-      (byte & 0x20 ? '1' : '0'), \
-      (byte & 0x10 ? '1' : '0'), \
-      (byte & 0x08 ? '1' : '0'), \
-      (byte & 0x04 ? '1' : '0'), \
-      (byte & 0x02 ? '1' : '0'), \
-      (byte & 0x01 ? '1' : '0')
-
 #define SwitchCount 100
-
-void nothing();
 
 int main()
 {
@@ -30,7 +17,7 @@ int main()
 
     for (unsigned char i = 0; i < 8; i++)
     {
-      unsigned char prev = lamps[0] & (0x01 << i);
+      unsigned char prev = lamps[0] & (0x01 << i); //Az előző érték alapból az első érték, mert az az alapállapot és nem egy "kapcsolás"
 
       for (unsigned char j = 0; j < SwitchCount; j++)
       {
@@ -175,8 +162,4 @@ int main()
     printf("\n\n6. feladat\nparos: %d", paros);
   }
   return 0;
-}
-
-void nothing() {
-  return;
 }

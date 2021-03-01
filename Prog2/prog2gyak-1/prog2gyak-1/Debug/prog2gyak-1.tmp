@@ -22,9 +22,9 @@
   <FILE>prog2gyak-1.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <start><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>58</LINE></start>
-  <LED_out><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>42</LINE></LED_out>
-  <delay_1s><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>49</LINE></delay_1s>
-  <loop><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>65</LINE></loop>
+  <start><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>90</LINE></start>
+  <LED_out><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>43</LINE></LED_out>
+  <delay_1s><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>50</LINE></delay_1s>
+  <loop><FILE>D:\_Projektek\_OE-KVK\_Munka\2021-1\Prog gyak\Prog2\prog2gyak-1\prog2gyak-1\main.asm</FILE><LINE>98</LINE></loop>
  </LABELS>
 </ASSEMBLER_INFO>
