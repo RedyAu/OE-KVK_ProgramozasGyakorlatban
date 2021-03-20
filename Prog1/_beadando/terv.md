@@ -28,9 +28,9 @@ Basic:
 With box drawing chars:
 ╔═╤═╤═╦═╤═╤═╦═╤═╤═╗
 ║O│ │ ║\   /║     ║
-╟─┼─┼─╫ \ / ╫╭───╮╢
+╟─┼─┼─╫ \ / ╫┌───┐╢
 ║ │X│ ║  X  ║|   |║
-╟─┼─┼─╫ / \ ╫╰───╯╢
+╟─┼─┼─╫ / \ ╫└───┘╢
 ║X│ │X║/   \║     ║
 ╠═╪═╪═╬═╪═╪═╬═╪═╪═╣
 ║ │ │ ║ │X│ ║ │ │ ║
@@ -48,9 +48,9 @@ With box drawing chars:
 
 Alternate version without inner lines:
 ╔═══╦═══╦═══╗
-║ O ║\ /║╭─╮║
+║ O ║\ /║┌─┐║
 ║XOX║ X ║| |║
-║OX ║/ \║╰─╯║
+║OX ║/ \║└─┘║
 ╠═══╬═══╬═══╣
 ║   ║ X ║   ║
 ║   ║O  ║   ║
@@ -61,3 +61,30 @@ Alternate version without inner lines:
 ║   ║   ║   ║
 ╚═══╩═══╩═══╝
 ```
+
+## Data
+
+### Storing states:
+
+#### Numbering:
+```
+#####
+#678#
+#345#
+#012#
+#####
+```
+
+#### Local boards:
+ - `0` = Blank
+ - `1` = X
+ - `2` = O
+
+#### Global boards:
+ - `0` = Local
+ - `1` = Big X
+ - `2` = Big O
+  
+### Structure:
+Two dimensional array, first dimension global, second dimension local board.\
+`game[9][9];`
