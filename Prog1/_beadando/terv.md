@@ -60,6 +60,48 @@ Alternate version without inner lines:
 ║   ║   ║   ║
 ║   ║   ║   ║
 ╚═══╩═══╩═══╝
+
+─ │ 
+┌┐
+└┘
+├┤┬┴
+┼
+
+╔═══╗
+║   ║
+║   ║
+║   ║
+╚═══╝
+╔═══╗\n║   ║\n║   ║\n║   ║\n╚═══╝
+    ╔═══╗
+    ║   ║
+    ║   ║
+    ║   ║
+    ╚═══╝
+    ╔═══╗\n    ║   ║\n    ║   ║\n    ║   ║\n    ╚═══╝
+        ╔═══╗
+        ║   ║
+        ║   ║
+        ║   ║
+        ╚═══╝
+        ╔═══╗\n        ║   ║\n        ║   ║\n        ║   ║\n        ╚═══╝
+
+┌───┬───┬───┐
+│   │   │   │
+│   │   │   │
+│   │   │   │
+├───┼───┼───┤
+│   │   │   │
+│   │   │   │
+│   │   │   │
+├───┼───┼───┤
+│   │   │   │
+│   │   │   │
+│   │   │   │
+└───┴───┴───┘
+
+┌───┬───┬───┐\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n└───┴───┴───┘
+
 ```
 
 ## Data
@@ -101,6 +143,6 @@ Two dimensional array, first dimension global, second dimension local board.\
  - Game begins. Initial conditions: Player is X, Selected board is 9 (unknown)
  - X can move. Unknown global board, so X has to choose a local board.
  - Local board validation, then X chooses field to place tick.
- - Validation, then setting local to equivalent as field.
- - O can move. Validation of selected global board, if right, O places a mark.
+ - Validation, then setting local to equivalent as field, then validate.
+ - O can move. If invalid board, get board. Then, O places a mark.
  - etc.
