@@ -40,12 +40,13 @@ void init() {
 }
 
 //! GLOBALS
-unsigned char game[9][9] = {0}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
+unsigned char globalBoard[9] = {0};
+unsigned char localBoards[9][9] = {0}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
 
 unsigned char aiEnabled = 0; //* 0 = 2 Player Mode; 1 = AI vs Player
 
-unsigned char Player = 0; //* 0 = X; 1 = O
-unsigned char selectedBoard = 0; //* 1-9 = Boards; 0 = User has to select board before next move.
+unsigned char player = 0; //* 0 = X; 1 = O
+unsigned char selectedBoard = 9; //* 0-8 = Boards; 9 = User has to select board before next move.
 
 //! PROTOTYPES
 void greet();
@@ -55,6 +56,11 @@ void getHLine(wchar_t *);
 void printGame();
 void superpose(wchar_t *original, wchar_t *additional, wchar_t *result);
 void extendLines(unsigned char additionalLines, wchar_t *source);
+unsigned char isValidBoard(unsigned char board, unsigned char userSelected);
+unsigned char isValidMove(unsigned char move);
+unsigned char isLocalWin();
+unsigned char isGlobalWin();
+void win();
 
 //! MAIN LOOP
 int main() {
@@ -81,36 +87,94 @@ int main() {
     printGame();
 
     while (1) {
-        if (selectedBoard == 0) {
+        if (player) wprintf(L"\n\nO plays next!\n");
+        else wprintf(L"\n\nX plays next!\n");
+
+        unsigned char move = 0;
+
+        if (selectedBoard == 9) {
             do {
                 wprintf(L"\nChoose a board with your numeric keyboard!\n");
                 selectedBoard = getMove();
-            } while (0);//!isValidBoard(selectedBoard));
-
-            printGame();
+            } while (!isValidBoard(selectedBoard, 1));
         }
+
+        printGame();
+
+        do {
+            wprintf(L"\n\nChoose a field to place a mark with your numeric keyboard!\n");
+            move = getMove();
+        } while (!isValidMove(move));
+        localBoards[selectedBoard][move] = player + 1;
+
+        if (isLocalWin()) {
+            //TODO Handle draws!
+            globalBoard[selectedBoard] = player + 1;
+            if (isGlobalWin()) {
+                win();
+                return 0; // Exit the program
+            }
+        }
+
+        if (isValidBoard(move, 0)) selectedBoard = move;
+        else selectedBoard = 9;
+        
+        player ^= 0x01;
     }
     scanf(" ");
     return 0;
 }
 
 //! FUNCTIONS
+void win() {
+    wchar_t playerChar = player ? L"O" : L"X";
+
+    wprintf(L"\n\n===================================\n        %c WON THE GAME!\n\nPress any key to exit.\n", playerChar);
+    getchar();
+    return;
+}
+
+unsigned char isLocalWin() {
+    return 0;
+}
+
+unsigned char isGlobalWin() {
+    return 0;
+}
+
+unsigned char isValidBoard(unsigned char board, unsigned char userSelected) {
+    if (globalBoard[board]) {
+        if (userSelected) wprintf(L"\nThis board can't be selected!");
+        return 0;
+    } else return 1;
+}
+
+unsigned char isValidMove(unsigned char move) {
+    if (localBoards[selectedBoard][move]) {
+        wprintf(L"\nThis move is not valid!");
+        return 0;
+    } else return 1;
+}
 
 void printGame() {
     wchar_t board[250] = {0};
     wcscpy(board, BoardTemplate);
 
     wchar_t selectedBoardDisplay[250] = {0};
-    if (selectedBoard) {
-        if ((selectedBoard == 1) || (selectedBoard == 4) || (selectedBoard == 7)) {
-            wcscpy(selectedBoardDisplay, SelectedL);
-            extendLines(((2 - (selectedBoard / 3)) * 4), selectedBoardDisplay);
-        } else if ((selectedBoard == 2) || (selectedBoard == 5) || (selectedBoard == 8)) {
-            wcscpy(selectedBoardDisplay, SelectedC);
-            extendLines(((2 - (selectedBoard / 3)) * 4), selectedBoardDisplay);
-        } else {
-            wcscpy(selectedBoardDisplay, SelectedR);
-            extendLines(((3 - (selectedBoard / 3)) * 4), selectedBoardDisplay);
+    if (selectedBoard != 9) {
+        switch (selectedBoard % 3) {
+            case 0:
+                wcscpy(selectedBoardDisplay, SelectedL);
+                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+            case 1:
+                wcscpy(selectedBoardDisplay, SelectedC);
+                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+            case 2:
+                wcscpy(selectedBoardDisplay, SelectedR);
+                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
         }
         superpose(board, selectedBoardDisplay, board);
     }
@@ -155,7 +219,7 @@ unsigned char getMove() {
         move = _getwch();
     } while (!(move >= L'1' && move <= L'9'));
     move -= L'0';
-    return (unsigned char)move;
+    return ((unsigned char)move - 1);
 }
 
 void greet() {
@@ -171,7 +235,7 @@ void greet() {
 
     if (aiEnabled == '1') {
         aiEnabled = 1;
-        wprintf(L"Selected AI mode.\n");
+        wprintf(L"Selected AI mode.\nYou are X, AI is O.\n");
     } else {
         aiEnabled = 0;
         wprintf(L"Selected 2 Player mode.\n");

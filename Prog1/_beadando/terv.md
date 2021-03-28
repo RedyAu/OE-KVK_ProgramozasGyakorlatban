@@ -117,6 +117,16 @@ Alternate version without inner lines:
 #####
 ```
 
+#### Figuring out which column or row we are in:
+```
+678 : /3 = 2
+345 : /3 = 1
+012 : /3 = 0
+  |_: %3 = 2
+ |__: %3 = 1
+|___: %3 = 0
+```
+
 #### Local boards:
  - `0` = Blank
  - `1` = X
@@ -126,6 +136,7 @@ Alternate version without inner lines:
  - `0` = Local
  - `1` = Big X
  - `2` = Big O
+ - `3` = Draw
   
 ### Structure:
 Two dimensional array, first dimension global, second dimension local board.\
