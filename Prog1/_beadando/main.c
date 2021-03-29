@@ -126,8 +126,102 @@ int main() {
 }
 
 //! FUNCTIONS
+void printGame() {
+    wchar_t board[250] = {0};
+    wcscpy(board, BoardTemplate);
+
+    wprintf(L"A");
+
+    wchar_t selectedBoardDisplay[250] = {0};
+
+    wprintf(L"B");
+
+    if (selectedBoard != 9) {
+        switch (selectedBoard % 3) {
+            case 0:
+                wcscpy(selectedBoardDisplay, SelectedL);
+                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+            case 1:
+                wcscpy(selectedBoardDisplay, SelectedC);
+                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+            case 2:
+                wcscpy(selectedBoardDisplay, SelectedR);
+                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+        }
+        superpose(board, selectedBoardDisplay, board);
+    }
+
+    wprintf(L"C");
+
+    wchar_t localBoardsRenderContent[9][9] = {0};
+
+    wprintf(L"D");
+    
+    unsigned char boardI = 0;
+    unsigned char placeI = 0;
+
+    while (boardI < 9) {
+        wprintf(L"E1");
+        while (placeI < 9) {
+            wprintf(L"E2");
+            wchar_t mark = 0;
+            mark = ((localBoards[boardI][placeI] == 0) ? L' ' : ((localBoards[boardI][placeI] == 1) ? L'X' : L'O'));
+            
+            unsigned char renderX = ((boardI % 3) * 3) + (placeI % 3);
+            unsigned char renderY = ((boardI / 3) * 3) + (placeI / 3);
+
+            localBoardsRenderContent[renderX][renderY] = mark;
+            placeI++;
+        }
+        boardI++;
+    }
+    
+    //{//!Debug print
+    wprintf(L"\n\nDEBUG PRINT\n");
+    unsigned char x = 0;
+    unsigned char y = 0;
+    while (y < 9) {
+        while (x < 9) {
+            wprintf(L"%c.", localBoardsRenderContent[x][y]);
+            x++;
+        }
+        wprintf(L"\n");
+        y++;
+    }
+    //}
+
+    /*
+    wchar_t localBoardsRendered[250] = {0};
+    {
+        unsigned char x = 0;
+        unsigned char y = 0;
+
+        while (y < 9) {
+            while (x < 9) {
+                if (!(x % 3))
+                    wcscat(localBoardsRendered, L" ");
+
+                wchar_t mark = localBoardsRenderContent[x][y];
+                wcscat(localBoardsRendered, &mark);
+            }
+            wcscat(localBoardsRendered, L"\n");
+
+            if (!(y % 3))
+                wcscat(localBoardsRendered, L"            \n");
+        }
+    }*/
+    //superpose(board, localBoardsRendered, board);
+
+    wprintf(L"\nBoard:\n%s", board);
+
+    return;
+}
+
 void win() {
-    wchar_t playerChar = player ? L"O" : L"X";
+    wchar_t playerChar = (player == 1) ? L'O' : L'X';
 
     wprintf(L"\n\n===================================\n        %c WON THE GAME!\n\nPress any key to exit.\n", playerChar);
     getchar();
@@ -154,34 +248,6 @@ unsigned char isValidMove(unsigned char move) {
         wprintf(L"\nThis move is not valid!");
         return 0;
     } else return 1;
-}
-
-void printGame() {
-    wchar_t board[250] = {0};
-    wcscpy(board, BoardTemplate);
-
-    wchar_t selectedBoardDisplay[250] = {0};
-    if (selectedBoard != 9) {
-        switch (selectedBoard % 3) {
-            case 0:
-                wcscpy(selectedBoardDisplay, SelectedL);
-                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
-                break;
-            case 1:
-                wcscpy(selectedBoardDisplay, SelectedC);
-                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
-                break;
-            case 2:
-                wcscpy(selectedBoardDisplay, SelectedR);
-                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
-                break;
-        }
-        superpose(board, selectedBoardDisplay, board);
-    }
-
-    wprintf(L"\n\n%s", board);
-
-    return;
 }
 
 void extendLines(unsigned char additionalLines, wchar_t *source) {

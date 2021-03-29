@@ -20,7 +20,8 @@ struct person {
     unsigned int year;
 };
 
-void populate(struct person *s);
+//void populate(struct person *s);
+void populateArray(struct person *s);
 
 int main() {
     struct person student;
@@ -33,10 +34,12 @@ int main() {
     student.year = 1;
     strcpy(student.name, "Alap Feltoltes");
 
-    while (i < 4) {
+    populateArray(&class);
+
+    /*while (i < 4) {
         populate(&(class[i]));
         i++;
-    }
+    }*/
 
     write(dataFile, &atoi(student.year), &sizeof(atoi(student.year)));
     write(dataFile, &student.nev, sizeof(student.year));
@@ -45,6 +48,35 @@ int main() {
     return 0;
 }
 
+void populateArray(struct person *s) {
+    unsigned char i = 0;
+    while (i < 4) {
+        printf("\n%d. elem feltöltése\n\n", i);
+
+        printf("Eletkor: ");
+        scanf("%d", &((s + i * sizeof(struct person)) -> age));
+        printf("\nSzuletesi ev: ");
+        scanf("%d", &((s + i * sizeof(struct person)) -> year));
+
+        unsigned char name2[15];
+        printf("\nVezeteknev: ");
+        scanf("%s", &((s + i * sizeof(struct person)) -> name));
+        printf("\nKeresztnev: ");
+        scanf("%s", name2);
+
+        strcat(&((s + i * sizeof(struct person)) -> name), " ");
+        strcat(&((s + i * sizeof(struct person)) -> name), name2);
+
+
+        printf("Nev: %s\n", (s + i * sizeof(struct person)) -> name);
+        printf("Eletkor: %d\n", (s + i * sizeof(struct person)) -> age);
+        printf("Szuletesi ev: %d\n", (s + i * sizeof(struct person)) -> year);
+
+        i++;
+    }
+    return;
+}
+/*
 void populate(struct person *s) {
     printf("Eletkor: ");
     scanf("%d", &(s -> age));
@@ -66,4 +98,4 @@ void populate(struct person *s) {
     printf("Szuletesi ev: %d\n", s -> year);
 
     return;
-}
+}*/
