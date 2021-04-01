@@ -89,7 +89,7 @@ int main() {
         localBoards[selectedBoard][move] = player + 1;
 
         if (winCheck(1)) {
-            wprintf("\nYou won the local board!\n");
+            wprintf(L"\nYou won the local board!\n");
             globalBoard[selectedBoard] = player + 1;
             if (winCheck(0)) {
                 printGame();
@@ -136,7 +136,48 @@ void printGame() {
         placeI = 0;
         while (placeI < 9) {
             wchar_t mark = 0;
-            mark = ((localBoards[boardI][placeI] == 0) ? L' ' : ((localBoards[boardI][placeI] == 1) ? L'X' : L'O'));
+            
+
+            //is the current local board won?
+            if (globalBoard[boardI]) {
+                unsigned char oWon = globalBoard[boardI] - 1;
+
+                switch (placeI)
+                {
+                case 0:
+                    mark = oWon ? L'┌' : L'\\';
+                    break;
+                case 1:
+                    mark = oWon ? L'─' : L' ';
+                    break;
+                case 2:
+                    mark = oWon ? L'┐' : L'/';
+                    break;
+                case 3:
+                    mark = oWon ? L'│' : L' ';
+                    break;
+                case 4:
+                    mark = oWon ? L' ' : L'X';
+                    break;
+                case 5:
+                    mark = oWon ? L'│' : L' ';
+                    break;
+                case 6:
+                    mark = oWon ? L'└' : L'/';
+                    break;
+                case 7:
+                    mark = oWon ? L'─' : L' ';
+                    break;
+                case 8:
+                    mark = oWon ? L'┘' : L'\\';
+                    break;
+                default:
+                    break;
+                }
+            }
+            else {
+                mark = ((localBoards[boardI][placeI] == 0) ? L' ' : ((localBoards[boardI][placeI] == 1) ? L'X' : L'O'));
+            }
             
             unsigned char renderX = ((boardI % 3) * 3) + (placeI % 3);
             unsigned char renderY = ((boardI / 3) * 3) + (placeI / 3);
