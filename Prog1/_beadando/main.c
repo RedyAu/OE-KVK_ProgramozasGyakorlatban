@@ -1,10 +1,10 @@
 //! INCLUDES
 #include <stdlib.h>
-#include <locale.h>
 #include <stdio.h>
 
 //!Set up wide character support on Windows
 #include <wchar.h>
+#include <locale.h>
 
 #ifdef _WIN32
 #include <io.h>
@@ -20,19 +20,17 @@ static int consoleWide(FILE *stream)
 static int consileWide(FILE *stream)
 {
     return fwide(stream, 1);
-    
 }
 
 #endif
-
-#define XMark 0
-#define OMark 1
 
 #define BoardTemplate L"┌───┬───┬───┐\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n└───┴───┴───┘"
 #define SelectedL L"╔═══╗        \n║   ║        \n║   ║        \n║   ║        \n╚═══╝        "
 #define SelectedC L"    ╔═══╗    \n    ║   ║    \n    ║   ║    \n    ║   ║    \n    ╚═══╝    "
 #define SelectedR L"        ╔═══╗\n        ║   ║\n        ║   ║\n        ║   ║\n        ╚═══╝"
 #define AdditionalLine L"             \n"
+
+const unsigned int WinMasks[8] = {0b100100100, 0b010010010, 0b001001001, 0b111000000, 0b000111000, 0b000000111, 0b100010001, 0b001010100};
 
 void init() {
     setlocale(LC_ALL, "");
@@ -41,7 +39,7 @@ void init() {
 
 //! GLOBALS
 unsigned char globalBoard[9] = {0};
-unsigned char localBoards[9][9] = {0}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
+unsigned char localBoards[9][9] = {0};//{{1,1,2,0,1,2,2,1,0},{0},{0},{0},{0},{0},{0},{0},{0}}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
 
 unsigned char aiEnabled = 0; //* 0 = 2 Player Mode; 1 = AI vs Player
 
@@ -58,37 +56,20 @@ void superpose(wchar_t *original, wchar_t *additional, wchar_t *result);
 void extendLines(unsigned char additionalLines, wchar_t *source);
 unsigned char isValidBoard(unsigned char board, unsigned char userSelected);
 unsigned char isValidMove(unsigned char move);
-unsigned char isLocalWin();
-unsigned char isGlobalWin();
+unsigned char winCheck(unsigned char local);
 void win();
 
 //! MAIN LOOP
 int main() {
     init();
-
-    /*
-
-    wchar_t originalString[250];
-    wcscpy(originalString, L"┌───┬───┬───┐\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n└───┴───┴───┘");
-    wchar_t additionalString[250];
-    wcscpy(additionalString, L"    ╔═══╗    \n    ║   ║    \n    ║   ║    \n    ║   ║    \n    ╚═══╝    ");
-    wchar_t resultString[250];
-
-    superpose(originalString, additionalString, resultString);
-
-    wprintf(L"%s", resultString);
-
-    return 0;
-
-    */
-
     greet();
 
     printGame();
 
     while (1) {
-        if (player) wprintf(L"\n\nO plays next!\n");
-        else wprintf(L"\n\nX plays next!\n");
+        wprintf(L"\n\n=============\n\n");
+        if (player) wprintf(L"\nO plays next!\n");
+        else wprintf(L"\nX plays next!\n");
 
         unsigned char move = 0;
 
@@ -107,10 +88,11 @@ int main() {
         } while (!isValidMove(move));
         localBoards[selectedBoard][move] = player + 1;
 
-        if (isLocalWin()) {
-            //TODO Handle draws!
+        if (winCheck(1)) {
+            wprintf("\nYou won the local board!\n");
             globalBoard[selectedBoard] = player + 1;
-            if (isGlobalWin()) {
+            if (winCheck(0)) {
+                printGame();
                 win();
                 return 0; // Exit the program
             }
@@ -126,47 +108,33 @@ int main() {
 }
 
 //! FUNCTIONS
+unsigned char winCheck(unsigned char local) {
+    unsigned int state = 0;
+    int i;
+
+    for (i = 0; i < 9; i++) state |= (((local ? localBoards[selectedBoard][i] : globalBoard[i]) == (player + 1))<<i);
+
+    for (i = 0; i < 9; i++) {
+        unsigned int check = 0;
+        check = state ^ WinMasks[i];
+
+        if (!check) return 1;
+    }
+    return 0;
+}
+
 void printGame() {
     wchar_t board[250] = {0};
     wcscpy(board, BoardTemplate);
 
-    wprintf(L"A");
-
-    wchar_t selectedBoardDisplay[250] = {0};
-
-    wprintf(L"B");
-
-    if (selectedBoard != 9) {
-        switch (selectedBoard % 3) {
-            case 0:
-                wcscpy(selectedBoardDisplay, SelectedL);
-                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
-                break;
-            case 1:
-                wcscpy(selectedBoardDisplay, SelectedC);
-                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
-                break;
-            case 2:
-                wcscpy(selectedBoardDisplay, SelectedR);
-                extendLines((((8 - selectedBoard) / 3) * 4), selectedBoardDisplay);
-                break;
-        }
-        superpose(board, selectedBoardDisplay, board);
-    }
-
-    wprintf(L"C");
-
     wchar_t localBoardsRenderContent[9][9] = {0};
-
-    wprintf(L"D");
     
     unsigned char boardI = 0;
     unsigned char placeI = 0;
 
     while (boardI < 9) {
-        wprintf(L"E1");
+        placeI = 0;
         while (placeI < 9) {
-            wprintf(L"E2");
             wchar_t mark = 0;
             mark = ((localBoards[boardI][placeI] == 0) ? L' ' : ((localBoards[boardI][placeI] == 1) ? L'X' : L'O'));
             
@@ -178,44 +146,49 @@ void printGame() {
         }
         boardI++;
     }
-    
-    //{//!Debug print
-    wprintf(L"\n\nDEBUG PRINT\n");
-    unsigned char x = 0;
-    unsigned char y = 0;
-    while (y < 9) {
-        while (x < 9) {
-            wprintf(L"%c.", localBoardsRenderContent[x][y]);
-            x++;
-        }
-        wprintf(L"\n");
-        y++;
-    }
-    //}
-
-    /*
     wchar_t localBoardsRendered[250] = {0};
     {
         unsigned char x = 0;
         unsigned char y = 0;
 
-        while (y < 9) {
-            while (x < 9) {
+        for (y = 0; y < 9; y++) {
+            if (!(y % 3))
+                wcscat(localBoardsRendered, L"             \n");
+                
+            for (x = 0; x < 9; x++) {
                 if (!(x % 3))
                     wcscat(localBoardsRendered, L" ");
 
-                wchar_t mark = localBoardsRenderContent[x][y];
-                wcscat(localBoardsRendered, &mark);
+                wchar_t stringToCopy[2] = {0};
+                stringToCopy[0] = localBoardsRenderContent[x][y];
+                wcscat(localBoardsRendered, stringToCopy);
             }
-            wcscat(localBoardsRendered, L"\n");
-
-            if (!(y % 3))
-                wcscat(localBoardsRendered, L"            \n");
+            wcscat(localBoardsRendered, L" \n");
         }
-    }*/
-    //superpose(board, localBoardsRendered, board);
+    }
+    superpose(board, localBoardsRendered, board);
 
-    wprintf(L"\nBoard:\n%s", board);
+    wchar_t selectedBoardDisplay[250] = {0};
+    if (selectedBoard != 9) {
+        switch (selectedBoard % 3) {
+            case 0:
+                wcscpy(selectedBoardDisplay, SelectedL);
+                extendLines((((selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+            case 1:
+                wcscpy(selectedBoardDisplay, SelectedC);
+                extendLines((((selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+            case 2:
+                wcscpy(selectedBoardDisplay, SelectedR);
+                extendLines((((selectedBoard) / 3) * 4), selectedBoardDisplay);
+                break;
+        }
+        superpose(board, selectedBoardDisplay, board);
+    }
+
+
+    wprintf(L"\n%s", board);
 
     return;
 }
@@ -228,15 +201,8 @@ void win() {
     return;
 }
 
-unsigned char isLocalWin() {
-    return 0;
-}
-
-unsigned char isGlobalWin() {
-    return 0;
-}
-
 unsigned char isValidBoard(unsigned char board, unsigned char userSelected) {
+    //TODO handle draws
     if (globalBoard[board]) {
         if (userSelected) wprintf(L"\nThis board can't be selected!");
         return 0;
@@ -282,10 +248,13 @@ unsigned char getMove() {
     wchar_t move = 0;
     do {
         wprintf(L"Type 1-9: ");
-        move = _getwch();
+        move = _getwche();
     } while (!(move >= L'1' && move <= L'9'));
-    move -= L'0';
-    return ((unsigned char)move - 1);
+    move -= (L'0' + 1);
+    if (move > 5) move -= 6;
+    else if (move < 3) move += 6;
+    
+    return ((unsigned char)move);
 }
 
 void greet() {
