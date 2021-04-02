@@ -302,7 +302,7 @@ unsigned char isDraw(unsigned char local) {
 
     //wprintf(L"\n#### isDraw: %d; global: %d", isDraw, global);
     
-//    if (isDraw && !global) globalBoard[selectedBoard] = 3; //Set global board to occupied
+    if (isDraw && local) globalBoard[selectedBoard] = 3; //Set global board to occupied
 
     return isDraw;
 }
