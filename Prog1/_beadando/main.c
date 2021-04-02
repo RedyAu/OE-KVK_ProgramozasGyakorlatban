@@ -3,27 +3,19 @@
 #include <stdio.h>
 #include <time.h>
 
-//!Set up wide character support on Windows
+//! Wide character support on Windows
 #include <wchar.h>
 #include <locale.h>
-
-#ifdef _WIN32
 #include <io.h>
 #include <fcntl.h>
 
-static int consoleWide(FILE *stream)
-{
-    return _setmode(_fileno(stream), _O_U16TEXT);
+void init() {
+    srand(time(NULL));
+    setlocale(LC_ALL, "");
+    _setmode(_fileno(stdout), _O_U16TEXT);
 }
 
-#else
-
-static int consileWide(FILE *stream)
-{
-    return fwide(stream, 1);
-}
-
-#endif
+//! DEFINES
 
 #define Version L"v1.0"
 #define UTTTLogo L"\n█░█ █░░ ▀█▀ █ █▀▄▀█ ▄▀█ ▀█▀ █▀▀\n█▄█ █▄▄ ░█░ █ █░▀░█ █▀█ ░█░ ██▄\n\n▀█▀ █ █▀▀ ▄▄ ▀█▀ ▄▀█ █▀▀ ▄▄ ▀█▀ █▀█ █▀▀\n░█░ █ █▄▄ ░░ ░█░ █▀█ █▄▄ ░░ ░█░ █▄█ ██▄"
@@ -39,15 +31,9 @@ static int consileWide(FILE *stream)
 
 const unsigned int WinMasks[8] = {0b100100100, 0b010010010, 0b001001001, 0b111000000, 0b000111000, 0b000000111, 0b100010001, 0b001010100};
 
-void init() {
-    srand(time(NULL));
-    setlocale(LC_ALL, "");
-    consoleWide(stdout);
-}
-
 //! GLOBALS
-unsigned char globalBoard[9] = {/*1,1,0,0,0,0,0,0,*/0};
-unsigned char localBoards[9][9] = {{0},{0},{0/*,2,2,2,1,2,2,1,1*/},{0},{0},{0},{0},{0},{0}}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
+unsigned char globalBoard[9] = {1,2,0,0,0,0,0,0,0};
+unsigned char localBoards[9][9] = {{0},{0},{0,2,2,2,1,2,2,1,1},{0},{0},{0},{0},{0},{0}}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
 
 unsigned char aiEnabled = 0; //* 0 = 2 Player Mode; 1 = AI vs Player
 

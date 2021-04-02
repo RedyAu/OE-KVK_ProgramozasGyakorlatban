@@ -1,0 +1,92 @@
+ ===============
+ How to play 1/4
+ ===============
+
+Do you know TicTacToe? It's a game where you have to have 3 Xs or Os in a row, column, or diagonally to win.
+This is a regular TicTacToe game that X has won:
+
+┌───┐
+│X O│
+│OO │
+│XXX│
+└───┘
+
+So far so good right?
+Press Enter to continue.
+
+--------------------------------
+
+ ===============
+ How to play 2/4
+ ===============
+
+Now let's say, we have 3x3 TicTacToe boards.
+This is Ultimate TicTacToe!
+The following game was won by O:
+
+┌───┬───┬───┐
+│OOX│\ /│\ /│
+│XX │ X │ X │
+│OOO│/ \│/ \│
+├───┼───┼───┤
+│┌─┐│┌─┐│┌─┐│
+││ │││ │││ ││
+│└─┘│└─┘│└─┘│
+╔═══╗───┼───┤
+║X  ║XX │┌─┐│
+║X  ║ X ││ ││
+║   ║ O │└─┘│
+╚═══╝───┴───┘
+
+As you can see, in order to win the whole game, you have to win the little boards so that they form a row, column or a diagonal.
+
+If you feel ready, press Enter to continue.
+
+-------------------------------
+
+ ===============
+ How to play 3/4
+ ===============
+
+There is a catch, however. We have to make this exciting.
+You can only place a mark in the Selected Board.
+In the beginning, X can choose one, but after that the selection moves by itself (unless it would be invalid) like this:
+
+Let's zoom in on the current selected board: X has placed a mark in the top right just now:
+╔═══╗
+║  X║
+║   ║
+║   ║
+╚═══╝
+
+This means that the top-right board will be selected in O's move (unless invalid, in which case he can choose):
+┌───┬───╔═══╗
+│   │   ║   ║
+│   │   ║   ║
+│   │   ║   ║
+├───┼───╚═══╝
+│  X│   │   │
+│   │   │   │
+│   │   │   │
+├───┼───┼───┤
+│   │   │   │
+│   │   │   │
+│   │   │   │
+└───┴───┴───┘
+
+Press Enter to continue. Only one page left.
+
+----------------------------------------
+
+ ===============
+ How to play 4/4
+ ===============
+
+So this is your goal:
+Win the small boards to win on the Big Board, but also to mind where in the small board you place your marks, as that controls where your opponent can play.
+
+Have fun!
+
+Press Enter to return to the Main Menu.
+
+----------------------------------------
