@@ -1,6 +1,7 @@
 //! INCLUDES
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 //!Set up wide character support on Windows
 #include <wchar.h>
@@ -24,22 +25,29 @@ static int consileWide(FILE *stream)
 
 #endif
 
+#define Version L"v1.0"
+#define UTTTLogo L"\n█░█ █░░ ▀█▀ █ █▀▄▀█ ▄▀█ ▀█▀ █▀▀\n█▄█ █▄▄ ░█░ █ █░▀░█ █▀█ ░█░ ██▄\n\n▀█▀ █ █▀▀ ▄▄ ▀█▀ ▄▀█ █▀▀ ▄▄ ▀█▀ █▀█ █▀▀\n░█░ █ █▄▄ ░░ ░█░ █▀█ █▄▄ ░░ ░█░ █▄█ ██▄"
 #define BoardTemplate L"┌───┬───┬───┐\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n├───┼───┼───┤\n│   │   │   │\n│   │   │   │\n│   │   │   │\n└───┴───┴───┘"
 #define SelectedL L"╔═══╗        \n║   ║        \n║   ║        \n║   ║        \n╚═══╝        "
 #define SelectedC L"    ╔═══╗    \n    ║   ║    \n    ║   ║    \n    ║   ║    \n    ╚═══╝    "
 #define SelectedR L"        ╔═══╗\n        ║   ║\n        ║   ║\n        ║   ║\n        ╚═══╝"
 #define AdditionalLine L"             \n"
+#define XPlays L" \\ /\n  X   PLAYS\n / \\\n"
+#define OPlays L"\n ┌─┐\n │ │  PLAYS\n └─┘\n"
+#define XWon L"\n \\ /\n  X   WON THE GAME!\n / \\\n"
+#define OWon L"\n ┌─┐\n │ │  WON THE GAME!\n └─┘"
 
 const unsigned int WinMasks[8] = {0b100100100, 0b010010010, 0b001001001, 0b111000000, 0b000111000, 0b000000111, 0b100010001, 0b001010100};
 
 void init() {
+    srand(time(NULL));
     setlocale(LC_ALL, "");
     consoleWide(stdout);
 }
 
 //! GLOBALS
-unsigned char globalBoard[9] = {0};
-unsigned char localBoards[9][9] = {0};//{{1,1,2,0,1,2,2,1,0},{0},{0},{0},{0},{0},{0},{0},{0}}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
+unsigned char globalBoard[9] = {/*1,1,0,0,0,0,0,0,*/0};
+unsigned char localBoards[9][9] = {{0},{0},{0/*,2,2,2,1,2,2,1,1*/},{0},{0},{0},{0},{0},{0}}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
 
 unsigned char aiEnabled = 0; //* 0 = 2 Player Mode; 1 = AI vs Player
 
@@ -49,54 +57,79 @@ unsigned char selectedBoard = 9; //* 0-8 = Boards; 9 = User has to select board 
 //! PROTOTYPES
 void greet();
 unsigned char getMove();
-
-void getHLine(wchar_t *);
 void printGame();
 void superpose(wchar_t *original, wchar_t *additional, wchar_t *result);
 void extendLines(unsigned char additionalLines, wchar_t *source);
 unsigned char isValidBoard(unsigned char board, unsigned char userSelected);
-unsigned char isValidMove(unsigned char move);
+unsigned char isValidMove(unsigned char move, unsigned char userSelected);
 unsigned char winCheck(unsigned char local);
-void win();
+void gameOver(unsigned char win);
+unsigned char isDraw(unsigned char local);
+unsigned char random();
 
 //! MAIN LOOP
 int main() {
     init();
+
     greet();
 
-    printGame();
-
     while (1) {
-        wprintf(L"\n\n=============\n\n");
-        if (player) wprintf(L"\nO plays next!\n");
-        else wprintf(L"\nX plays next!\n");
+        wprintf(L"\n\n===================================");
 
         unsigned char move = 0;
 
-        if (selectedBoard == 9) {
+        if (aiEnabled && player) {
+            if (selectedBoard == 9) {
+                do {
+                    selectedBoard = random();
+                } while (!isValidBoard(selectedBoard, 0));
+            }
+
             do {
-                wprintf(L"\nChoose a board with your numeric keyboard!\n");
-                selectedBoard = getMove();
-            } while (!isValidBoard(selectedBoard, 1));
+                move = random();
+            } while (!isValidMove(move, 0));
+
+        } else {
+
+            if (selectedBoard == 9) {
+                printGame();
+                do {
+                    wprintf(L"\n\nChoose a board with your numeric keyboard!\n");
+                    selectedBoard = getMove();
+                } while (!isValidBoard(selectedBoard, 1));
+            }
+
+            printGame();
+
+            do {
+                wprintf(L"\n\nChoose a field to place a mark with your numeric keyboard!\n");
+                move = getMove();
+            } while (!isValidMove(move, 1));
         }
-
-        printGame();
-
-        do {
-            wprintf(L"\n\nChoose a field to place a mark with your numeric keyboard!\n");
-            move = getMove();
-        } while (!isValidMove(move));
         localBoards[selectedBoard][move] = player + 1;
 
         if (winCheck(1)) {
-            wprintf(L"\nYou won the local board!\n");
+            if (!aiEnabled) wprintf(L"\n\n - You won a small board! -\n");
             globalBoard[selectedBoard] = player + 1;
+
             if (winCheck(0)) {
                 printGame();
-                win();
+                gameOver(1);
                 return 0; // Exit the program
+            } else if (isDraw(0)) {
+                printGame();
+                gameOver(0);
+                return 0;
+            }
+        } else if (isDraw(1)) {
+            if (isDraw(0)) {
+                printGame();
+                gameOver(0);
+                return 0;
             }
         }
+
+        if (aiEnabled) printGame();
 
         if (isValidBoard(move, 0)) selectedBoard = move;
         else selectedBoard = 9;
@@ -108,17 +141,30 @@ int main() {
 }
 
 //! FUNCTIONS
+unsigned char random() {
+    return rand() % 9;
+}
+
 unsigned char winCheck(unsigned char local) {
     unsigned int state = 0;
     int i;
 
-    for (i = 0; i < 9; i++) state |= (((local ? localBoards[selectedBoard][i] : globalBoard[i]) == (player + 1))<<i);
+    //wprintf(L"\n#### WINCHECK Local: %d, Player: %d", local, player);
 
-    for (i = 0; i < 9; i++) {
-        unsigned int check = 0;
-        check = state ^ WinMasks[i];
+    for (i = 0; i < 9; i++) state |= (((local ? localBoards[selectedBoard][i] : globalBoard[i]) == (player + 1)) << (8 - i));
 
-        if (!check) return 1;
+    //wprintf(L"\nAggregated board: %x", state);
+
+    for (i = 0; i < 8; i++) {
+        unsigned int check = state & WinMasks[i];
+        check |= ~(WinMasks[i]);
+
+        //wprintf(L"\nChecking state: %x against mask: %x, got value: %x", state, WinMasks[i], check);
+
+        if (check == 0xFFFFFFFF) {
+            //wprintf(L"\n--\nWon!");
+            return 1;
+        }
     }
     return 0;
 }
@@ -136,10 +182,9 @@ void printGame() {
         placeI = 0;
         while (placeI < 9) {
             wchar_t mark = 0;
-            
-
-            //is the current local board won?
-            if (globalBoard[boardI]) {
+        
+            //Is the current local board won? (3 is TIE)
+            if (globalBoard[boardI] != 0 && globalBoard[boardI] != 3) {
                 unsigned char oWon = globalBoard[boardI] - 1;
 
                 switch (placeI)
@@ -228,31 +273,50 @@ void printGame() {
         superpose(board, selectedBoardDisplay, board);
     }
 
-
-    wprintf(L"\n%s", board);
+    wprintf(L"\n\n\n%s\n%s", (player ? OPlays : XPlays), board);
 
     return;
 }
 
-void win() {
+void gameOver(unsigned char win) {
     wchar_t playerChar = (player == 1) ? L'O' : L'X';
 
-    wprintf(L"\n\n===================================\n        %c WON THE GAME!\n\nPress any key to exit.\n", playerChar);
+    if (win) {
+        wprintf(L"\n\n===================================\n%s\n", (player ? OWon : XWon));
+    } else {
+        wprintf(L"\n\n===================================\n     GAME ENDED WITH TIE :(\n");
+    }
+    
+    wprintf(L"\nPress enter to exit.\n");
     getchar();
     return;
 }
 
-unsigned char isValidBoard(unsigned char board, unsigned char userSelected) {
-    //TODO handle draws
-    if (globalBoard[board]) {
+unsigned char isDraw(unsigned char local) {
+    unsigned char isDraw = 0;
+    int i;
+    for (i = 0; i < 9; i++) {
+        if (!local ? globalBoard[i] : localBoards[selectedBoard][i]) isDraw++;
+    }
+    isDraw = (isDraw == 9);
+
+    //wprintf(L"\n#### isDraw: %d; global: %d", isDraw, global);
+    
+//    if (isDraw && !global) globalBoard[selectedBoard] = 3; //Set global board to occupied
+
+    return isDraw;
+}
+
+unsigned char isValidBoard(unsigned char selectedBoard, unsigned char userSelected) {
+    if (globalBoard[selectedBoard] || isDraw(1)) {
         if (userSelected) wprintf(L"\nThis board can't be selected!");
         return 0;
     } else return 1;
 }
 
-unsigned char isValidMove(unsigned char move) {
+unsigned char isValidMove(unsigned char move, unsigned char userSelected) {
     if (localBoards[selectedBoard][move]) {
-        wprintf(L"\nThis move is not valid!");
+        if (userSelected) wprintf(L"\nThis move is not valid!");
         return 0;
     } else return 1;
 }
@@ -299,8 +363,7 @@ unsigned char getMove() {
 }
 
 void greet() {
-    wprintf(L"Starting Ultimate Tic-Tac-Toe!\n");
-    wprintf(L"\nWho is playing?\n\n1: Only me (AI mode)\n2: Me and my buddy (2 Player mode)");
+    wprintf(L"\n\n%s\nBy Benedek Fodor (G2NFHW)  %s\n\n   - NEW GAME -\n\nWho is playing?\n\n1: Only me (AI mode)\n2: Me and my buddy (2 Player mode)", UTTTLogo, Version);
     do {
         wprintf(L"\nType 1-2: ");
         aiEnabled = _getwch();
