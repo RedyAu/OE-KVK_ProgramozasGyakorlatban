@@ -32,8 +32,8 @@ void init() {
 const unsigned int WinMasks[8] = {0b100100100, 0b010010010, 0b001001001, 0b111000000, 0b000111000, 0b000000111, 0b100010001, 0b001010100};
 
 //! GLOBALS
-unsigned char globalBoard[9] = {1,2,0,0,0,0,0,0,0};
-unsigned char localBoards[9][9] = {{0},{0},{0,2,2,2,1,2,2,1,1},{0},{0},{0},{0},{0},{0}}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
+unsigned char globalBoard[9] = {/*1,1,0,0,0,0,0,0,*/0};
+unsigned char localBoards[9][9] = {/*{0},{0},{0,2,2,2,1,2,2,1,1},{0},{0},{0},{0},{0},{*/0/*}*/}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
 
 unsigned char aiEnabled = 0; //* 0 = 2 Player Mode; 1 = AI vs Player
 
@@ -48,7 +48,7 @@ void superpose(wchar_t *original, wchar_t *additional, wchar_t *result);
 void extendLines(unsigned char additionalLines, wchar_t *source);
 unsigned char isValidBoard(unsigned char board, unsigned char userSelected);
 unsigned char isValidMove(unsigned char move, unsigned char userSelected);
-unsigned char winCheck(unsigned char local);
+unsigned char winCheck(unsigned char *board);
 void gameOver(unsigned char win);
 unsigned char isDraw(unsigned char local);
 unsigned char random();
@@ -71,9 +71,13 @@ int main() {
                 } while (!isValidBoard(selectedBoard, 0));
             }
 
-            do {
-                move = random();
-            } while (!isValidMove(move, 0));
+            move = getWinningAI();
+            if (move == 9) move = getSabotageAI();
+            if (move == 9) {
+                do {
+                    move = random();
+                } while (!isValidMove(move));
+            }
 
         } else {
 
@@ -94,11 +98,11 @@ int main() {
         }
         localBoards[selectedBoard][move] = player + 1;
 
-        if (winCheck(1)) {
+        if (winCheck(localBoards[selectedBoard])) {
             if (!aiEnabled) wprintf(L"\n\n - You won a small board! -\n");
             globalBoard[selectedBoard] = player + 1;
 
-            if (winCheck(0)) {
+            if (winCheck(globalBoard)) {
                 printGame();
                 gameOver(1);
                 return 0; // Exit the program
@@ -127,17 +131,23 @@ int main() {
 }
 
 //! FUNCTIONS
+
+unsigned char getWinningAI() {
+    //* Loop trough every place on the board, try placing mark, see if it is a winning move.
+    //* If sabotage, check winning move for other player.
+}
+
 unsigned char random() {
     return rand() % 9;
 }
 
-unsigned char winCheck(unsigned char local) {
+unsigned char winCheck(unsigned char *board) {
     unsigned int state = 0;
     int i;
 
     //wprintf(L"\n#### WINCHECK Local: %d, Player: %d", local, player);
 
-    for (i = 0; i < 9; i++) state |= (((local ? localBoards[selectedBoard][i] : globalBoard[i]) == (player + 1)) << (8 - i));
+    for (i = 0; i < 9; i++) state |= ((board[i] == (player + 1)) << (8 - i));
 
     //wprintf(L"\nAggregated board: %x", state);
 
