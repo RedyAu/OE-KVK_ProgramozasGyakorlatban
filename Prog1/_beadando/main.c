@@ -48,10 +48,11 @@ void superpose(wchar_t *original, wchar_t *additional, wchar_t *result);
 void extendLines(unsigned char additionalLines, wchar_t *source);
 unsigned char isValidBoard(unsigned char board, unsigned char userSelected);
 unsigned char isValidMove(unsigned char move, unsigned char userSelected);
-unsigned char winCheck(unsigned char *board);
+unsigned char winCheck(unsigned char *board, unsigned char player);
 void gameOver(unsigned char win);
-unsigned char isDraw(unsigned char local);
+unsigned char isDraw(unsigned char *board);
 unsigned char random();
+unsigned char getWinningFor(unsigned char player, unsigned char board);
 
 //! MAIN LOOP
 int main() {
@@ -65,21 +66,25 @@ int main() {
         unsigned char move = 0;
 
         if (aiEnabled && player) {
-            if (selectedBoard == 9) {
+            if (selectedBoard == 9) { //! If no local board is selected, select one at random.
                 do {
                     selectedBoard = random();
                 } while (!isValidBoard(selectedBoard, 0));
             }
 
-            move = getWinningAI();
-            if (move == 9) move = getSabotageAI();
-            if (move == 9) {
+            if ((move = getWinningFor(1, selectedBoard)) != 9); //! Got a winning move for the AI!
+            else if ((move = getWinningFor(0, selectedBoard)) != 9); //! Got a winning move for the other player to sabotage :evil:
+            else {
+                //! No Big Brain Movez :cri:
+                //! Just play a random one.
                 do {
                     move = random();
-                } while (!isValidMove(move));
+                } while (!isValidMove(move, 0));
             }
+            //* No need to write move here, that happens later in the code.
 
         } else {
+            //! Get move from user
 
             if (selectedBoard == 9) {
                 printGame();
@@ -96,25 +101,31 @@ int main() {
                 move = getMove();
             } while (!isValidMove(move, 1));
         }
+        //! Save move
         localBoards[selectedBoard][move] = player + 1;
 
-        if (winCheck(localBoards[selectedBoard])) {
-            if (!aiEnabled) wprintf(L"\n\n - You won a small board! -\n");
-            globalBoard[selectedBoard] = player + 1;
+        //* #######################################
 
-            if (winCheck(globalBoard)) {
+        if (winCheck(localBoards[selectedBoard], player)) { //! Check win on the current local board
+            if (!aiEnabled) wprintf(L"\n\n - You won a small board! -\n"); //! Announce win if a user won
+            globalBoard[selectedBoard] = player + 1; //! Save won board in global board
+
+            if (winCheck(globalBoard, player)) { //! Check win on global board
                 printGame();
-                gameOver(1);
-                return 0; // Exit the program
-            } else if (isDraw(0)) {
+                gameOver(1); //! Announce WIN, GAME OVER!
+                return 0;
+            } else if (isDraw(globalBoard)) { //! If there is no winner, check for global draw
                 printGame();
-                gameOver(0);
+                gameOver(0); //! Announce TIE, GAME OVER!
                 return 0;
             }
-        } else if (isDraw(1)) {
-            if (isDraw(0)) {
+        } else if (isDraw(localBoards[selectedBoard])) { //! Check for local draw
+            //* If current board is not won and is tie, set global mark to tie
+            if (!globalBoard[selectedBoard]) globalBoard[selectedBoard] = 3;
+
+            if (isDraw(globalBoard)) { //! Check for global tie
                 printGame();
-                gameOver(0);
+                gameOver(0); //! Announce TIE, GAME OVER!
                 return 0;
             }
         }
@@ -132,16 +143,33 @@ int main() {
 
 //! FUNCTIONS
 
-unsigned char getWinningAI() {
+unsigned char getWinningFor(unsigned char player, unsigned char board) {
     //* Loop trough every place on the board, try placing mark, see if it is a winning move.
     //* If sabotage, check winning move for other player.
+    int i;
+    
+    unsigned char testBoard[9];
+    for (i = 0; i < 9; i++) { //! Get a separate board to test moves with
+        testBoard[i] = localBoards[board][i];
+    }
+
+    for (i = 0; i < 9; i++) {
+        unsigned char backupMark = testBoard[i];
+        testBoard[i] = player + 1;
+        if (isValidMove(i, 0) && winCheck(testBoard, player)) {
+            return i;
+        }
+        testBoard[i] = backupMark;
+    }
+
+    return 9;
 }
 
 unsigned char random() {
     return rand() % 9;
 }
 
-unsigned char winCheck(unsigned char *board) {
+unsigned char winCheck(unsigned char *board, unsigned char player) {
     unsigned int state = 0;
     int i;
 
@@ -179,7 +207,7 @@ void printGame() {
         while (placeI < 9) {
             wchar_t mark = 0;
         
-            //Is the current local board won? (3 is TIE)
+            //? Is the current local board won? (3 is TIE)
             if (globalBoard[boardI] != 0 && globalBoard[boardI] != 3) {
                 unsigned char oWon = globalBoard[boardI] - 1;
 
@@ -288,23 +316,19 @@ void gameOver(unsigned char win) {
     return;
 }
 
-unsigned char isDraw(unsigned char local) {
+unsigned char isDraw(unsigned char *board) {
     unsigned char isDraw = 0;
     int i;
     for (i = 0; i < 9; i++) {
-        if (!local ? globalBoard[i] : localBoards[selectedBoard][i]) isDraw++;
+        if (board[i]) isDraw++;
     }
     isDraw = (isDraw == 9);
-
-    //wprintf(L"\n#### isDraw: %d; global: %d", isDraw, global);
-    
-    if (isDraw && local) globalBoard[selectedBoard] = 3; //Set global board to occupied
 
     return isDraw;
 }
 
 unsigned char isValidBoard(unsigned char selectedBoard, unsigned char userSelected) {
-    if (globalBoard[selectedBoard] || isDraw(1)) {
+    if (globalBoard[selectedBoard]) {
         if (userSelected) wprintf(L"\nThis board can't be selected!");
         return 0;
     } else return 1;
