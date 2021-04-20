@@ -52,7 +52,6 @@ unsigned char isValidMove(unsigned char move, unsigned char userSelected);
 unsigned char winCheck(unsigned char *board, unsigned char player);
 void gameOver(unsigned char win);
 unsigned char isDraw(unsigned char *board);
-unsigned char random();
 unsigned char getWinningFor(unsigned char player, unsigned char board);
 
 //! MAIN LOOP
@@ -73,16 +72,15 @@ int main()
             if (selectedBoard == 9)
             { //! If no local board is selected, select one at random.
                 do
-                {
-                    selectedBoard = random();
-                } while (!isValidBoard(selectedBoard, 0));
+                    rand() % 9;
+                while (!isValidBoard(selectedBoard, 0));
             }
 
             if ((move = getWinningFor(1, selectedBoard)) != 9); //! Got a winning move for the AI!
             else if ((move = getWinningFor(0, selectedBoard)) != 9); //! Got a winning move for the other player to sabotage :evil:
             else
                 do
-                    move = random();
+                    move = rand() % 9;
                 while (!isValidMove(move, 0)); //! No good moves :( Just choose a random valid field.
 
             //* No need to write move here, that happens later in the code.
@@ -115,32 +113,32 @@ int main()
         //* #######################################
 
         if (winCheck(localBoards[selectedBoard], player)) //! Check win on the current local board
-        { 
+        {
             if (!aiEnabled)
                 wprintf(L"\n\n - You won a small board! -\n"); //! Announce win if a user won
             globalBoard[selectedBoard] = player + 1;           //! Save won board in global board
 
             if (winCheck(globalBoard, player)) //! Check win on global board
-            { 
+            {
                 printGame();
                 gameOver(1); //! Announce WIN, GAME OVER!
                 return 0;
             }
             else if (isDraw(globalBoard)) //! If there is no winner, check for global draw
-            { 
+            {
                 printGame();
                 gameOver(0); //! Announce TIE, GAME OVER!
                 return 0;
             }
         }
         else if (isDraw(localBoards[selectedBoard])) //! Check for local draw
-        { 
+        {
             //* If current board is not won and is tie, set global mark to tie
             if (!globalBoard[selectedBoard])
                 globalBoard[selectedBoard] = 3;
 
             if (isDraw(globalBoard)) //! Check for global tie
-            { 
+            {
                 printGame();
                 gameOver(0); //! Announce TIE, GAME OVER!
                 return 0;
@@ -171,7 +169,7 @@ unsigned char getWinningFor(unsigned char player, unsigned char board)
 
     unsigned char testBoard[9];
     for (i = 0; i < 9; i++) //! Get a separate board to test moves with
-    { 
+    {
         testBoard[i] = localBoards[board][i];
     }
 
@@ -187,11 +185,6 @@ unsigned char getWinningFor(unsigned char player, unsigned char board)
     }
 
     return 9;
-}
-
-unsigned char random()
-{
-    return rand() % 9;
 }
 
 unsigned char winCheck(unsigned char *board, unsigned char player)
