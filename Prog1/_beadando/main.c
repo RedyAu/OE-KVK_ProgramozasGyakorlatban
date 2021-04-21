@@ -38,7 +38,7 @@ int main()
             if (selectedBoard == 9)
             { //! If no local board is selected, select one at random.
                 do
-                    rand() % 9;
+                    selectedBoard = rand() % 9;
                 while (!isValidBoard(selectedBoard, 0));
             }
 
