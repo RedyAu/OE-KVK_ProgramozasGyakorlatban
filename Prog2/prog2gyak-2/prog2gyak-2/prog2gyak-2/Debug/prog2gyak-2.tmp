@@ -1,0 +1,32 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega128"</DEVICE>
+ <WORKING_DIR>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m128def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\Debug\prog2gyak-2.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>prog2gyak-2.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>prog2gyak-2.map</FILE>
+  <FILE>prog2gyak-2.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <start><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</FILE><LINE>74</LINE></start>
+  <LED_out><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</FILE><LINE>48</LINE></LED_out>
+  <delay_1s><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</FILE><LINE>55</LINE></delay_1s>
+  <seven_segment><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</FILE><LINE>64</LINE></seven_segment>
+  <loop><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</FILE><LINE>83</LINE></loop>
+  <kiir><FILE>C:\Users\fodor\Documents\Atmel Studio\7.0\prog2gyak-2\prog2gyak-2\prog2gyak-2\main.asm</FILE><LINE>92</LINE></kiir>
+ </LABELS>
+</ASSEMBLER_INFO>
