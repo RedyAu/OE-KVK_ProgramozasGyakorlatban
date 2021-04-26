@@ -3,8 +3,8 @@
 
 //! Globals
 
-unsigned char globalBoard[9] = {/*1,1,0,0,0,0,0,0,*/ 0};
-unsigned char localBoards[9][9] = {/*{0},{0},{0,2,2,2,1,2,2,1,1},{0},{0},{0},{0},{0},{*/ 0 /*}*/}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
+unsigned char globalBoard[9] = {0};
+unsigned char localBoards[9][9] = {0}; //* Storing all marks. First dim: Global board states, Second dim: Local board states.
 
 unsigned char aiEnabled = 0; //* 0 = 2 Player Mode; 1 = AI vs Player
 

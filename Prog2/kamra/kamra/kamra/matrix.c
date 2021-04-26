@@ -4,6 +4,7 @@
  * Created: 2021.04.03. 10:32:20
  *  Author: FAB
  */ 
+#include "matrix.h"
 
 void temperatureEntry(uint8_t key) {
 	static uint8_t lastKey;
@@ -13,9 +14,14 @@ void temperatureEntry(uint8_t key) {
 		if (key != 99) {
 			if (key == 11) { // #
 				isDuringEntry = 0;
+				lcdBlink(0);
 			} else {
 				setTemp = (setTemp * 10) + key;
 				if (setTemp > 400) setTemp = 400;
+				if (setTemp / 100) {
+					isDuringEntry = 0;
+					lcdBlink(0);
+				}
 				mainScreenPrint();
 			}
 		}

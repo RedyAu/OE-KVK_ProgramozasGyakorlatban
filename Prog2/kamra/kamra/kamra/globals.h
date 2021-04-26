@@ -9,13 +9,18 @@
 #ifndef GLOBALS_H_
 #define GLOBALS_H_
 
-uint8_t isDuringEntry = 0;
+#include <avr/sfr_defs.h>
 
-uint8_t pinGPrev = 0;
+extern uint8_t isDuringEntry;
 
-uint32_t millis = 0;
-uint32_t lastUpdate = 1000;
+extern uint8_t pinGPrev;
 
-uint8_t isHeating = 0;
+extern unsigned long millis;
+extern unsigned long lastUpdate;
+extern unsigned long lastOn;
+
+extern uint8_t isHeating;
+
+extern char timeUnit;
 
 #endif /* GLOBALS_H_ */

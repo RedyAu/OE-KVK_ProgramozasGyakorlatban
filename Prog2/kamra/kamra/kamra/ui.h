@@ -14,6 +14,10 @@
 void mainScreenPrint();
 void setScreenPrint();
 
+unsigned char getOnPercentage();
+
+unsigned char saveMinute();
+
 
 
 #endif /* UI_H_ */

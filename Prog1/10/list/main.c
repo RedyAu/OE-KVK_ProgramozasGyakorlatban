@@ -98,6 +98,31 @@ void listazas_vissza() {
     printf("%d\t", aktualis->ertek);
 }
 
-void torles(int del) { //TODO házi
+void torles(int toDelete) { //TODO házi
+    item *aktualis;
+    aktualis = elso;
+
+    //! Search input in list
+    while (aktualis->kovetkezo) {
+        if (aktualis->ertek == toDelete) break;
+        aktualis = aktualis->kovetkezo;
+    }
+
+    //! Get it out of the list
+    aktualis->kovetkezo->elozo = 
+        aktualis->elozo == NULL //Első
+            ? elso = NULL
+            : aktualis->elozo;
+
+    aktualis->elozo->kovetkezo = //TODO fix
+        aktualis->kovetkezo == NULL //Utolso
+            ? utolso = NULL
+            : aktualis->kovetkezo;
+
+    if (utolso == NULL) utolso = aktualis->elozo;
+    else if (elso == NULL) elso = aktualis->kovetkezo;
+
+    //! Remove from memory
+    free(aktualis);
     return;
 }

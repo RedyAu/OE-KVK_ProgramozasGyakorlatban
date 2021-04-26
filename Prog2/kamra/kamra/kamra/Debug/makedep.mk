@@ -4,6 +4,8 @@
 
 eeprom.c
 
+globals.c
+
 lcd.c
 
 main.c

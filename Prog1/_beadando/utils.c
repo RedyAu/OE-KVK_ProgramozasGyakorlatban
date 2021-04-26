@@ -37,25 +37,16 @@ unsigned char winCheck(unsigned char *board, unsigned char player)
     unsigned int state = 0;
     int i;
 
-    //wprintf(L"\n#### WINCHECK Local: %d, Player: %d", local, player);
-
     for (i = 0; i < 9; i++)
         state |= ((board[i] == (player + 1)) << (8 - i));
-
-    //wprintf(L"\nAggregated board: %x", state);
 
     for (i = 0; i < 8; i++)
     {
         unsigned int check = state & WinMasks[i];
         check |= ~(WinMasks[i]);
 
-        //wprintf(L"\nChecking state: %x against mask: %x, got value: %x", state, WinMasks[i], check);
-
         if (check == 0xFFFFFFFF)
-        {
-            //wprintf(L"\n--\nWon!");
             return 1;
-        }
     }
     return 0;
 }

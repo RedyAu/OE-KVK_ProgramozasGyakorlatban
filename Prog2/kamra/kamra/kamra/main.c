@@ -3,13 +3,7 @@
 	*
 	* Created: 2021.04.03. 10:20:24
 	* Author : FAB
-	*/ 
-
-#include "lcd.h"
-#include "matrix.h"
-#include "ui.h"
-#include "tempsensor.h"
-#include "globals.h"
+*/ 
 
 #include <avr/io.h>
 #include <stdio.h>
@@ -17,6 +11,12 @@
 #include <util/delay.h>
 #include <avr/sfr_defs.h>
 #include <avr/interrupt.h>
+
+#include "globals.h"
+#include "lcd.h"
+#include "matrix.h"
+#include "ui.h"
+#include "tempsensor.h"
 
 void ledInit();
 void timerInit();
@@ -36,24 +36,26 @@ int main(void)
 {
 	init();
 	//Print constant screen content
-	lcdPrintMulti("Current:       C", "Set:           C", "Last Hour:     %", "Last On:       s");
+	lcdPrintMulti("Current:       C", "Set:           C", "Last Hour:     %", "Last On:");
 	
 	while (1) 
 	{
+		unsigned char showingEasterEgg = 0;
+		
 		if (pinGPrev != PING) {
 			pinGPrev = PING;
 			
 			switch(pinGPrev) {
 				case 0x01:
 					isDuringEntry ^= 0x01;
-					setTemp *= !isDuringEntry;
 					lcdBlink(isDuringEntry);
+					
+					//If entry has just begun, reset the set temperature.
+					setTemp = setTemp * !isDuringEntry; //Branchless programming™ áíûõüöúóé
+					
 					mainScreenPrint();
 					
 					_delay_ms(50); //Primitive debounce
-					break;
-				case 0b00010101:
-					//TODO Easter egg
 					break;
 			}
 		}
@@ -71,6 +73,14 @@ int main(void)
 			//updateStats();
 			mainScreenPrint();
 		}
+		
+		static unsigned long lastSaved = 0;		
+		if (millis - lastSaved > 60000) {
+			lastSaved = millis;
+			saveMinute();
+		}
+		
+		if (isHeating) lastOn = millis;
 		
 		//PORTB = (((currentTemp < setTemp) ? 0x80 : ((currentTemp > setTemp + 5) ? 0 : PORTB)));
 		
