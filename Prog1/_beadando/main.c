@@ -121,7 +121,7 @@ int main()
         else
             selectedBoard = 9;
 
-        player ^= 0x01;
+        player ^= 1;
     }
     return 0;
 }

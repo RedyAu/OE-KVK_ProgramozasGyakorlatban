@@ -128,6 +128,9 @@
     <Compile Include="eeprom.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="globals.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="lcd.c">
       <SubType>compile</SubType>
     </Compile>

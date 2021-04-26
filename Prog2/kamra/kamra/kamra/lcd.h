@@ -63,14 +63,4 @@ void lcdPrintAt(uint8_t x, uint8_t y, char* data);
 
 #define lcdClear() lcdCommand(LCD_CLEAR)
 
-#ifdef GREET
-#define _Greet() \
- lcdClear(); \
- lcdPrintMulti("Kamra TC","Temp. controller","Version 1.0","!Written BY FAB"); \
- _delay_ms(2000); \
- lcdClear()
-#else
-#define _Greet() 
-#endif
-
 #endif /* LCD_H_ */

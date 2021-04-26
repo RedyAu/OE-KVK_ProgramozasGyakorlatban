@@ -9,6 +9,7 @@
 #include "matrix.h"
 #include "ui.h"
 #include "tempsensor.h"
+#include "globals.h"
 
 #include <avr/io.h>
 #include <stdio.h>
@@ -17,12 +18,8 @@
 #include <avr/sfr_defs.h>
 #include <avr/interrupt.h>
 
-uint8_t isDuringEntry = 0;
-
-uint8_t pinGPrev = 0;
-
-uint32_t millis = 0;
-uint32_t lastUpdate = 0;
+void ledInit();
+void timerInit();
 
 #define UpdateRate 1000
 #define RelayPort 7
@@ -38,15 +35,11 @@ void init() {
 int main(void)
 {
 	init();
-	_Greet();
+	//Print constant screen content
+	lcdPrintMulti("Current:       C", "Set:           C", "Last Hour:     %", "Last On:       s");
 	
 	while (1) 
 	{
-		/*int temp = (int)readTemp();
-		char asd[17] = {0};
-		sprintf(asd,"%d",temp);
-		lcdPrint(asd,1);*/
-		
 		if (pinGPrev != PING) {
 			pinGPrev = PING;
 			
@@ -57,8 +50,7 @@ int main(void)
 					lcdBlink(isDuringEntry);
 					mainScreenPrint();
 					
-					ledOut(isDuringEntry);
-					_delay_ms(10);
+					_delay_ms(50); //Primitive debounce
 					break;
 				case 0b00010101:
 					//TODO Easter egg
@@ -69,6 +61,9 @@ int main(void)
 		if (isDuringEntry) {
 			uint8_t matrixKey = readMatrix();
 			temperatureEntry(matrixKey);
+			PORTB |= 0x10;
+		} else {
+			PORTB &= 0xEF;
 		}
 		
 		if (millis - lastUpdate > UpdateRate) {
@@ -77,14 +72,23 @@ int main(void)
 			mainScreenPrint();
 		}
 		
-		PORTB = (((currentTemp < setTemp) ? 0x80 : ((currentTemp > setTemp + 5) ? 0 : PORTB)));
+		//PORTB = (((currentTemp < setTemp) ? 0x80 : ((currentTemp > setTemp + 5) ? 0 : PORTB)));
 		
-		//ledOut(isDuringEntry);
-		/*
-		char asd[17] = {0};
-		sprintf(asd,"%d", setTemp);
-		lcdPrint(asd, 1);*/
+		if (isHeating) {
+			if (currentTemp > setTemp + 5) {
+				isHeating = 0;
+				PORTB &= 0x7F;
+			}
+		} else if (currentTemp < setTemp) {
+			isHeating = 1;
+			PORTB |= 0x80;
+		}
 	}
+}
+
+void ledInit() {
+	DDRB |= 0b11110000;
+	DDRD |= 0b11110000;
 }
 
 void timerInit() {

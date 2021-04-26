@@ -16,4 +16,8 @@ extern int setTemp;
 #define F_CPU 8000000
 #include <avr/delay.h>
 
+#include "matrix.h"
+#include "ui.h"
+#include "globals.h"
+
 #endif /* MATRIX_H_ */

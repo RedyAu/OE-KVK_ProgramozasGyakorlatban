@@ -5,34 +5,25 @@
  *  Author: FAB
  */ 
 
-#include "matrix.h"
-#include "ui.h"
-
 void temperatureEntry(uint8_t key) {
 	static uint8_t lastKey;
 	
 	if (key != lastKey) {
 		lastKey = key;
 		if (key != 99) {
-			setTemp = (setTemp * 10) + key;
-			if (setTemp > 400) setTemp = 400;
-			mainScreenPrint();
+			if (key == 11) { // #
+				isDuringEntry = 0;
+			} else {
+				setTemp = (setTemp * 10) + key;
+				if (setTemp > 400) setTemp = 400;
+				mainScreenPrint();
+			}
 		}
 	}
 }
 
 void initMatrix() {
 	DDRC |= 0x78;
-}
-
-void ledInit() {
-	DDRB |= 0b11110000;
-	DDRD |= 0b11110000;
-}
-
-void ledOut(uint8_t cmd) {
-	PORTD = cmd & 0b11110000;
-	PORTB = (cmd << 4) & 0b11110000;
 }
 
 int readMatrix() {
