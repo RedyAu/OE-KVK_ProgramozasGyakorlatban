@@ -4,12 +4,12 @@
 
 void superpose(wchar_t *original, wchar_t *additional, wchar_t *result);
 void extendLines(unsigned char additionalLines, wchar_t *source);
+void printGame(wchar_t *printToString);
 
-void printGame()
+void printGame(wchar_t *printToString)
 {
     wchar_t board[250] = {0};
     wcscpy(board, BoardTemplate);
-
     wchar_t localBoardsRenderContent[9][9] = {0};
 
     unsigned char boardI = 0;
@@ -73,6 +73,7 @@ void printGame()
         }
         boardI++;
     }
+    
     wchar_t localBoardsRendered[250] = {0};
     {
         unsigned char x = 0;
@@ -96,6 +97,7 @@ void printGame()
         }
     }
     superpose(board, localBoardsRendered, board);
+    
 
     wchar_t selectedBoardDisplay[250] = {0};
     if (selectedBoard != 9)
@@ -118,7 +120,11 @@ void printGame()
         superpose(board, selectedBoardDisplay, board);
     }
 
-    wprintf(L"\n\n\n%s\n%s", (player ? OPlays : XPlays), board);
+    if (printToString) {
+        swprintf(printToString, 250, L"%s", board);
+    } else {
+        wprintf(L"\n\n\n%s\n%s", (player ? OPlays : XPlays), board);
+    }
 
     return;
 }
@@ -140,10 +146,7 @@ void extendLines(unsigned char additionalLines, wchar_t *source)
 void superpose(wchar_t *original, wchar_t *additional, wchar_t *result)
 {
     wcscpy(result, original);
-    /*
-    wprintf(L"\nOriginal:\n%s", original);
-    wprintf(L"\nSuperposed:\n%s", additional);
-*/
+
     int length = wcslen(additional);
     unsigned char i = 0;
     while (i < length)

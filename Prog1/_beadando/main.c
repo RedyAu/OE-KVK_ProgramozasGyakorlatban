@@ -16,7 +16,7 @@
 void init();
 void greet();
 unsigned char getMove();
-void printGame();
+void saveGame(unsigned char win);
 
 void gameOver(unsigned char win);
 
@@ -59,7 +59,7 @@ int main()
 
             if (selectedBoard == 9)
             {
-                printGame();
+                printGame(NULL);
                 do
                 {
                     wprintf(L"\n\nChoose a board with your numeric keyboard!\n");
@@ -67,7 +67,7 @@ int main()
                 } while (!isValidBoard(selectedBoard, 1));
             }
 
-            printGame();
+            printGame(NULL);
 
             do
             {
@@ -88,13 +88,13 @@ int main()
 
             if (winCheck(globalBoard, player)) //! Check win on global board
             {
-                printGame();
+                printGame(NULL);
                 gameOver(1); //! Announce WIN, GAME OVER!
                 return 0;
             }
             else if (isDraw(globalBoard)) //! If there is no winner, check for global draw
             {
-                printGame();
+                printGame(NULL);
                 gameOver(0); //! Announce TIE, GAME OVER!
                 return 0;
             }
@@ -107,14 +107,14 @@ int main()
 
             if (isDraw(globalBoard)) //! Check for global tie
             {
-                printGame();
+                printGame(NULL);
                 gameOver(0); //! Announce TIE, GAME OVER!
                 return 0;
             }
         }
 
         if (aiEnabled)
-            printGame();
+            printGame(NULL);
 
         if (isValidBoard(move, 0))
             selectedBoard = move;
@@ -131,7 +131,7 @@ int main()
 void init()
 {
     srand(time(NULL));
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "UTF-8");
     _setmode(_fileno(stdout), _O_U16TEXT);
 }
 
@@ -147,10 +147,42 @@ void gameOver(unsigned char win)
     {
         wprintf(L"\n\n===================================\n     GAME ENDED WITH TIE :(\n");
     }
+    
+    wprintf(L"\nWould you like to save the final board to a file?\n0: Exit\n1: Save board, then exit");
 
-    wprintf(L"\nPress enter to exit.\n");
-    getchar();
+    wchar_t pressed = 0;
+    do
+    {
+        wprintf(L"\nType 0-1: ");
+        pressed = _getwche();
+    } while (!(pressed == L'0' || pressed == L'1'));
+    
+    if (pressed == L'1') {
+        saveGame(win);
+        wprintf(L"\n\nPress any key to exit.");
+        _getwch();
+    }
+
     return;
+}
+
+void saveGame(unsigned char win) {
+    wprintf(L"\nSaving...");
+    wchar_t board[250] = {0};
+    printGame(board); //* Get rendered board to print to file
+
+    FILE *fp;
+    fp = fopen("game.txt", "w");
+    _setmode(_fileno(fp), _O_U16TEXT);
+
+    if (fp == NULL) {
+        wprintf(L"\nCouldn't save file!");
+        return;
+    }
+    
+    fwprintf(fp, L"\n%s\n\n%s", board, (win ? (player ? OWon : XWon) : L"Game ended with tie :("));
+    fflush(fp);
+    fclose(fp);
 }
 
 unsigned char getMove()
